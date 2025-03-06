@@ -12,8 +12,8 @@ interface NavLinkProps {
 
 const PAGES = [
   { label: 'Home', destination: '/' },
-  { label: 'View All People', destination: '/people' },
-  { label: 'View All Submissions', destination: '/submissions' },
+  { label: 'View All People', destination: '/People' },
+  { label: 'View All Submissions', destination: '/Submissions' },
 ];
 
 function NavLink(props: NavLinkProps) {
