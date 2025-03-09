@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from "next/link";
@@ -8,22 +10,34 @@ const PEOPLE_READ_ENDPOINT = `${BACKEND_URL}/people`;
 const PEOPLE_CREATE_ENDPOINT = `${BACKEND_URL}/people/create`;
 const ROLES_ENDPOINT = `${BACKEND_URL}/roles`;
 
-function AddPersonForm({
-  visible,
-  cancel,
-  fetchPeople,
-  setError,
-  roleOptions,
-}) {
+type HTMLINPUTEVENT = React.ChangeEvent<HTMLInputElement>;
+type HTMLSELECTEVENT = React.ChangeEvent<HTMLSelectElement>
+
+interface AddPersonFormProps {
+  visible: boolean,
+  cancel: () => void,
+  fetchPeople: () => void,
+  setError: (arg0?: string) => void,
+  roleOptions: { [key: string]: string },
+}
+
+function AddPersonForm(props: AddPersonFormProps) {
+  const {
+    visible,
+    cancel,
+    fetchPeople,
+    setError,
+    roleOptions,
+  } = props;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
 
-  const changeName = (event) => { setName(event.target.value); };
-  const changeEmail = (event) => { setEmail(event.target.value); };
-  const changeRole = (event) => { setRole(event.target.value); };
+  const changeName = (event: HTMLINPUTEVENT) => { setName(event.target.value); };
+  const changeEmail = (event: HTMLINPUTEVENT) => { setEmail(event.target.value); };
+  const changeRole = (event: HTMLSELECTEVENT) => { setRole(event.target.value); };
 
-  const addPerson = (event) => {
+  const addPerson = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     const newPerson = {
       name: name,
