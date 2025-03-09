@@ -13,14 +13,6 @@ const ROLES_ENDPOINT = `${BACKEND_URL}/roles`;
 type HTMLINPUTEVENT = React.ChangeEvent<HTMLInputElement>;
 type HTMLSELECTEVENT = React.ChangeEvent<HTMLSelectElement>
 
-interface AddPersonFormProps {
-  visible: boolean,
-  cancel: () => void,
-  fetchPeople: () => void,
-  setError: (arg0?: string) => void,
-  roleOptions: { [key: string]: string },
-}
-
 function AddPersonForm(props: AddPersonFormProps) {
   const {
     visible,
@@ -76,20 +68,32 @@ function AddPersonForm(props: AddPersonFormProps) {
     </form>
   );
 }
+interface AddPersonFormProps {
+  visible: boolean,
+  cancel: () => void,
+  fetchPeople: () => void,
+  setError: (arg0?: string) => void,
+  roleOptions: { [key: string]: string },
+}
 
-function ErrorMessage({ message }) {
+function ErrorMessage(props: ErrorMessageProps) {
+  const { message } = props;
   return (
     <div className="error-message">
       {message}
     </div>
   );
 }
+interface ErrorMessageProps {
+  message: string,
+}
 
-function Person({
-  person,
-  fetchPeople,
-  roleMap,
- }) {
+function Person(props: PersonProps) {
+  const {
+    person,
+    fetchPeople,
+    roleMap,
+   } = props;
   const { name, email, roles } = person;
 
   const deletePerson = () => {
@@ -99,7 +103,7 @@ function Person({
 
   return (
     <div>
-      <Link to={email}>
+      <Link href={email}>
         <div className="person-container">
           <h2>{name}</h2>
           <p>
@@ -113,6 +117,15 @@ function Person({
       <button onClick={deletePerson}>Delete person</button>
     </div>
   );
+}
+interface PersonProps {
+  person: {
+    name: string,
+    email: string,
+    roles: string[],
+  },
+  fetchPeople: () => void,
+  roleMap: { [key: string]: string }
 }
 
 function peopleObjectToArray(Data) {
