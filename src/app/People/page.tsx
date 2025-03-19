@@ -72,7 +72,8 @@ interface AddPersonFormProps {
   visible: boolean,
   cancel: () => void,
   fetchPeople: () => void,
-  setError: (arg0?: string) => void,
+  // setError: (arg0?: string) => void,
+  setError: React.Dispatch<React.SetStateAction<string>>,
   roleOptions: { [key: string]: string },
 }
 
@@ -118,17 +119,24 @@ function Person(props: PersonProps) {
     </div>
   );
 }
+
+interface Person {
+  name: string,
+  email: string,
+  roles: string[],
+}
+
 interface PersonProps {
-  person: {
-    name: string,
-    email: string,
-    roles: string[],
-  },
+  person: Person,
   fetchPeople: () => void,
   roleMap: { [key: string]: string }
 }
 
-function peopleObjectToArray(Data) {
+interface peopleObject {
+  [key: string]: Person
+}
+
+function peopleObjectToArray(Data: peopleObject) {
   const keys = Object.keys(Data);
   const people = keys.map((key) => Data[key]);
   return people;
@@ -137,7 +145,7 @@ function peopleObjectToArray(Data) {
 
 function People() {
   const [error, setError] = useState('');
-  const [people, setPeople] = useState([]);
+  const [people, setPeople] = useState([] as Person[]);
   const [addingPerson, setAddingPerson] = useState(false);
   const [roleMap, setRoleMap] = useState({});
 
@@ -183,12 +191,12 @@ function People() {
       {error && <ErrorMessage message={error} />}
       {
       people.map((person) => 
-        <Person
+        (<Person
           key={person.email}
           person={person}
           fetchPeople={fetchPeople}
           roleMap={roleMap}
-        />
+        />)
       )
       }
     </div>
