@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from "next/link";
+
+import style from './People.module.css';
  
 import { BACKEND_URL } from '@/app/constants.js';
 
@@ -105,7 +107,7 @@ function Person(props: PersonProps) {
   return (
     <div>
       <Link href={email}>
-        <div className="person-container">
+        <div className={style.person_container}>
           <h2>{name}</h2>
           <p>
             Email: {email}
